@@ -1,5 +1,5 @@
-#this is the documentation for the Semester end project 
-a few keywords and comments regarding them :
+# this is the documentation for the Semester end project 
+# a few keywords and comments regarding them :
 User : 
 this object is shared for both admins and customers since the difference between them isnt really seen in the methods and attributes
 also there are both a RightPassword and RightPassword_ methods for this class because i wanted to keep the password as private as possible which also explains the absence of the getter for this attribute
