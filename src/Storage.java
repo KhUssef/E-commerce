@@ -50,6 +50,16 @@ public class Storage {
             idk.get(x).setQtity(idk.get(x).getQtity()-y);
         }
     }
+    public void alterQtityUser(int x, int y, int z){
+        if(y==1)
+            idk.get(x).increaseQty(z);
+        else{
+            idk.get(x).setQtity(Math.max(0, idk.get(x).getQtity()-z));
+            if(idk.get(x).getQtity()==0){
+                idk.remove(x);
+            }
+        }
+    }
     void changeName(int x, String j){
         idk.get(x).setName(j);
     }
@@ -67,9 +77,18 @@ public class Storage {
     }
     void showall(ArrayList<storedItem> lol){
         for(int i=0; i<lol.size(); i++){
-            System.out.println(i+"--");
+            System.out.print(i+"--");
             showItem(i, lol);
         }
+    }
+    float showallShopping(){
+        float total = 0;
+        for (int i = 0; i<idk.size(); i++) {
+            System.out.print(i+"--");
+            showItemShopping(i);
+            total += idk.get(i).getQtity() * idk.get(i).getPrice();
+        }
+        return total;
     }
     int size(){
         return idk.size();
@@ -102,5 +121,9 @@ public class Storage {
     void addReview(int x, float i, String n){
         storedItem item = idk.get(x);
         item.addDescription(n, i);
+    }
+    void showItemShopping(int x){
+        storedItem item = idk.get(x);
+        System.out.print("the product "+item.getName()+"\nId number : "+item.getId()+"\n you have "+item.getQtity()+"\nin your cart.In total thisll cost"+item.getQtity()*item.getPrice());
     }
 }

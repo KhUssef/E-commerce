@@ -25,5 +25,8 @@ public class AdminDatabase {
         }
         return null;
     }
+    void add(admin user){
+        idk.add(user);
+    }
 }
 

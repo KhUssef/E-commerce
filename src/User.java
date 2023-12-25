@@ -40,15 +40,46 @@ class User {
 class customer extends User{
     private feedback feedbacks;
     private Storage shoppingCart;
+    private ArrayList<Integer> couponCodes;
     customer(String mail, String password, String UserName) {
         super(mail, password, UserName);
         feedbacks = new feedback();
         shoppingCart = new Storage();
+        couponCodes = new ArrayList<>();
 
     }
     void addShopingCart(storedItem item, int x){
         storedItem nItem = new storedItem(item.getName(), item.getPrice(), item.getId(), x);
-
+        shoppingCart.add_item(nItem);
+    }
+    float showShopping(){
+        return shoppingCart.showallShopping();
+    }
+    void addCoupon(int x){
+        couponCodes.add(x);
+    }
+    int shoppingCartSize(){
+        return shoppingCart.size();
+    }
+    float ShowCoupons(){
+        float total=0;
+        Coupon idk ;
+        for(int i : couponCodes){
+            idk = Main.coupondatabase.searchCoupon(i);
+            if(idk==null){
+                couponCodes.remove(i);
+            }else{
+                System.out.println("Coupon code : "+idk.getCode()+"\n discount : "+idk.getDiscount());
+                total+=idk.getDiscount();
+            }
+        }
+        return total;
+    }
+    void showItem(int x){
+        shoppingCart.showItem(x);
+    }
+    void alterItem(int x, int y, int z){
+            shoppingCart.alterQtity(x, y, z);
     }
 }
 class admin extends User{

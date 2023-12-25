@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.*;
 import java.lang.Math;
 public class Main {
@@ -6,6 +5,8 @@ public class Main {
     static AdminDatabase Admins = new AdminDatabase();
     static feedback appFeedback = new feedback();
     static Storage Inventory = new Storage();
+    static Coupons coupondatabase = new Coupons();
+
     public static void mainwindow() {
         int x;
         float p;
@@ -21,7 +22,7 @@ public class Main {
                 adminLogin();
                 break;
             case 3 :
-                System.out.println("are you a : \n\t 1--admin \n\t 2--customerDatabase :");
+                System.out.println("are you a : \n\t 1--admin \n\t 2--customer :");
                 x = Sc.nextInt();
                 switch(x){
                     case 1 : createAdmin();break;
@@ -32,7 +33,7 @@ public class Main {
                 System.out.println("how many stars would you like to give us");
                 p = Sc.nextFloat();
                 System.out.println("how can we improve ur user experience : ");
-                Sc.next();
+                ;
                 o = Sc.nextLine();
                 System.out.println("we appreciate the feedback and will try to work towards satisfying our customerDatabases");
                 review a = new review(p, o);
@@ -41,20 +42,20 @@ public class Main {
         }
     }
     public static void customerLogin(){
-        String y = null, z=null;
+        String y, z;
         int u;
         customer user;
         Scanner Sc = new Scanner(System.in);
         while (true) {
-            y = null;z=null;
             System.out.println("enter mail : ");
-            Sc.next();
             y = Sc.nextLine();
             System.out.println("enter password : ");
             z = Sc.nextLine();
             user =customers.login(y, z);
+            System.out.println(y+z);
             if (user !=null){
                 customerWindow(user);
+                return;
             }
             else{
                 System.out.println("wrong account info : \n\t 1--return to main window \n\t 2--try again");
@@ -62,33 +63,101 @@ public class Main {
                 if (u == 1) {
                     return;
                 }
+                Sc.next();
             }
         }
     }
 
     public static void customerWindow(customer user){
         while (true) {
-            System.out.println("hello " + user.getUserName() + "what would you like to do today : \n\t1--view shopping cart" +
-                    "\n\t2--view available products"+
-                    "\n\t3--search for specific product\n\t4--logout");
+            System.out.println("hello ," + user.getUserName() + " what would you like to do today : \n\t1--view shopping cart" +
+                    "\n\t2--view available products\n\t3--add coupons"+
+                    "\n\t4--search for specific product\n\t5--logout");
             int x;
             Scanner Sc = new Scanner(System.in);
             x = Sc.nextInt();
             switch (x) {
                 case 1:
-                    addingItem();
+                    viewShoppingCart(user);
                     break;
                 case 2:
-                    alterItem();
+                    showItems(user);
                     break;
                 case 3:
-                    return;
+                    addCouponCode(user);
                 case 4:
+                    search(user);
+                case 5 :
                     return;
             }
 
         }
     }
+
+    static void search(customer user){
+        Scanner Sc = new Scanner(System.in);
+        int x, u;
+        String y;
+        System.out.println("enter the product name:");
+        y = Sc.nextLine();
+        System.out.println("enter the product Id:");
+        x = Sc.nextInt();
+        storedItem si = new storedItem(y, 0, x, 1);
+        if(!Inventory.existing(si)){
+            System.out.println("the product doesnt exist\n");
+        }else {
+            x = Inventory.position(si);
+            Inventory.showItem(x);
+            System.out.println("what would you like to do exactly\n\t1--add review\n\t2--add to basket");
+            ;
+            u = Sc.nextInt();
+            if(u==1){
+                addreview(x);
+                return;
+            }
+            System.out.println("how many would you like to add : ");
+            u = Sc.nextInt();
+            si.setQtity(u);
+            user.addShopingCart(si, u);
+            System.out.println("items added successfully");
+        }
+    }
+    static void addCouponCode(customer user){
+        Scanner Sc = new Scanner(System.in);
+        System.out.println("enter coupon code");
+        int x = Sc.nextInt();
+        Coupon c = coupondatabase.searchCoupon(x);
+        if(c!=null){
+            user.addCoupon(x);
+            System.out.println("Coupon code added successfully.\ncoupon code: "+x+"\ndiscount: "+c.getDiscount());
+        }
+    }
+    static void viewShoppingCart(customer user){
+        float total= user.showShopping();
+        System.out.println("the total comes up to :"+total);
+        total -= user.ShowCoupons();
+        System.out.println("after discount your total  is :"+Math.max(0, total));
+        System.out.println("\n\t"+user.shoppingCartSize()+"checkout");
+        int x;
+        Scanner Sc = new Scanner(System.in);
+        x=Sc.nextInt();
+        if(x==user.shoppingCartSize())
+            return;
+        alterItemCustomer(user, x);
+    }
+
+    static void alterItemCustomer(customer user, int x){
+        user.showItem(x);
+        System.out.println("would you like to\t\n1--increase qtity\t\n2--decrease qtity");
+        int z, y;
+        Scanner Sc = new Scanner(System.in);
+        y =(Sc.nextInt());
+        System.out.println("by how much");
+        z = Sc.nextInt();
+        user.alterItem(x, y, z);
+        user.showItem(x);
+    }
+
 
     public static void adminLogin(){
         String y = null, z=null;
@@ -98,13 +167,13 @@ public class Main {
         while (true) {
             y = null;z=null;
             System.out.println("enter mail : ");
-            Sc.next();
             y = Sc.nextLine();
             System.out.println("enter password : ");
             z = Sc.nextLine();
             user =Admins.login(y, z);
             if (user !=null){
                 adminWindow(user);
+                return;
             }
             else{
                 System.out.println("wrong account info : \n\t 1--return to main window \n\t 2--try again");
@@ -112,14 +181,15 @@ public class Main {
                 if (u == 1) {
                     return;
                 }
+                Sc.next();
             }
         }
     }
     public static void adminWindow(admin user) {
         while (true) {
-            System.out.println("hello " + user.getUserName() + "what would you like to do today : \n\t1--add a new Product" +
-                    "\n\t2--increase the qtity of an already existing product\n\t3--review exiting products" +
-                    "4--logout");
+            System.out.println("hello ," + user.getUserName() + " what would you like to do today : \n\t1--add a new Product" +
+                    "\n\t2--increase the qtity of an already existing product\n\t3--view existing products" +
+                    "\n\t4--add coupon\n\t4--logout");
             int x;
             Scanner Sc = new Scanner(System.in);
             x = Sc.nextInt();
@@ -133,11 +203,24 @@ public class Main {
                 case 3:
                     showItemsAdmin();
                     break;
-                case 4:
+                case 5 :
                     return;
+                case 4:
+                    addCouponAdmin();
             }
 
         }
+    }
+
+    static void addCouponAdmin(){
+        Scanner Sc = new Scanner(System.in);
+        int c ;
+        float k;
+        System.out.println("enter coupon code");
+        c = Sc.nextInt();
+        System.out.println("enter discount amount ");
+        k = Sc.nextFloat();
+        coupondatabase.addCoupon(c, k);
     }
 
     static void addingItem(){
@@ -175,11 +258,10 @@ public class Main {
         }else{
             x = Inventory.position(si);
             Inventory.showItem(x);
-            System.out.println();
             System.out.println("what would you like to do exactly\n\t1--change its name\n\t2--change its Id\n\t3--change the price" +
                     "\n\t4--increase/decrease product qtity");
             u = Sc.nextInt();
-            Sc.next();
+            ;
             switch(u) {
                 case 1:
                     while (true) {
@@ -305,7 +387,7 @@ public class Main {
                 case 1 :
                     System.out.println("how many would you like to add?");
                     y = Sc.nextInt();
-                    y = Math.min(y, Inventory.getQtity(y));
+                    y = Math.min(y, Inventory.getQtity(x));
                     System.out.println("successfully added "+y+" "+Inventory.getName(y)+"s to the shopping cart");
                     user.addShopingCart(Inventory.getItem(x), y);
                     break;
@@ -324,7 +406,7 @@ public class Main {
         Scanner Sc = new Scanner(System.in);
         String s;
         float idk;
-        System.out.println("how many stars would you like to give us : ");
+        System.out.println("how many stars would you like to give : ");
         idk = Sc.nextFloat();
         System.out.println("any additional comment to add :");
         s= Sc.nextLine();
@@ -347,7 +429,7 @@ public class Main {
                 case 'm' :
                     System.out.println("mail already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
-                    Sc.next();
+                    ;
                     switch (x){
                         case 1 : continue;
                         case 2 : return;
@@ -355,13 +437,14 @@ public class Main {
                 case 'u' :
                     System.out.println("username already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
-                    Sc.next();
+                    ;
                     switch (x){
                         case 1 : continue;
                         case 2 : return;
                     }
                 case 'n' :
                     System.out.println("congrats "+z+", u have successfully created your account");
+                    Admins.add(a);
                     return;
             }
         }
@@ -383,7 +466,7 @@ public class Main {
                 case 'm' :
                     System.out.println("mail already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
-                    Sc.next();
+                    ;
                     switch (x){
                         case 1 : continue;
                         case 2 : return;
@@ -391,13 +474,14 @@ public class Main {
                 case 'u' :
                     System.out.println("username already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
-                    Sc.next();
+                    ;
                     switch (x){
                         case 1 : continue;
                         case 2 : return;
                     }
                 case 'n' :
                     System.out.println("congrats "+z+", u have successfully created your account");
+                    customers.add(a);
                     return;
             }
         }

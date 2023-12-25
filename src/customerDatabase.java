@@ -25,4 +25,7 @@ public class customerDatabase {
         }
         return null;
     }
+    void add(customer user){
+        idk.add(user);
+    }
 }
