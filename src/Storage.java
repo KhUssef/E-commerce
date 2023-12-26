@@ -50,7 +50,7 @@ public class Storage {
             idk.get(x).setQtity(idk.get(x).getQtity()-y);
         }
     }
-    public void alterQtityUser(int x, int y, int z){
+    void alterQtityUser(int x, int y, int z){
         if(y==1)
             idk.get(x).increaseQty(z);
         else{
@@ -59,6 +59,20 @@ public class Storage {
                 idk.remove(x);
             }
         }
+    }
+
+    float checkout(){
+        float total=0;
+        storedItem nItem;
+        for(storedItem item : idk){
+            nItem = Main.Inventory.getItem(Main.Inventory.position(item));
+            total+=item.getPrice()*Math.min(nItem.getQtity(),item.getQtity());
+            Main.Inventory.alterQtityUser(Main.Inventory.position(item), 2, Math.min(nItem.getQtity(),item.getQtity()));
+        }
+        return total;
+    }
+    void delete(){
+        idk.clear();
     }
     void changeName(int x, String j){
         idk.get(x).setName(j);
@@ -94,15 +108,17 @@ public class Storage {
         return idk.size();
     }
     ArrayList<storedItem> filtered(float mi, float ma, int asc, String kw) {
-        Set<String> kws =new HashSet<>();
+        Set<String> kws = new HashSet<>();
         Set<String> temp;
         Collections.addAll(kws, kw.split(" "));
         ArrayList<storedItem> lol = new ArrayList<>();
+        if(kws.isEmpty())
+            return idk;
         for (storedItem i : idk) {
             if ((i.getPrice() >= mi) && (i.getPrice() <= ma)) {
                 temp = kws;
                 temp.retainAll(i.getKeywords());
-                if(!temp.isEmpty()|| kws.isEmpty())
+                if(!temp.isEmpty())
                     lol.add(i);
             }
         }

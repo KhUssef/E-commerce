@@ -58,10 +58,10 @@ abstract class Product {
 
 class storedItem extends Product{
     protected int Qty;
-    storedItem(String name, float price, int Id, int Qty){
+    storedItem(String name, float price, int Id, int Qty, String kw){
         super(name, price, Id);
         this.Qty = Qty;
-
+        Collections.addAll(this.keywords, kw.split(" "));
     }
     public int getQtity() {
         return Qty;
@@ -78,7 +78,7 @@ class storedItem extends Product{
 class shoppingItem extends storedItem{
     private float combinedPrice;
     shoppingItem(String name, float price, int Id, int Qty) {
-        super(name, price, Id, Qty);
+        super(name, price, Id, Qty, "");
         combinedPrice = Qty * price;
     }
 

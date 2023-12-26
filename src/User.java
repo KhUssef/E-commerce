@@ -49,7 +49,7 @@ class customer extends User{
 
     }
     void addShopingCart(storedItem item, int x){
-        storedItem nItem = new storedItem(item.getName(), item.getPrice(), item.getId(), x);
+        storedItem nItem = new storedItem(item.getName(), item.getPrice(), item.getId(), x, item.getKeywords().toString());
         shoppingCart.add_item(nItem);
     }
     float showShopping(){
@@ -79,7 +79,23 @@ class customer extends User{
         shoppingCart.showItem(x);
     }
     void alterItem(int x, int y, int z){
-            shoppingCart.alterQtity(x, y, z);
+            shoppingCart.alterQtityUser(x, y, z);
+    }
+    float checkout(){
+        float total= shoppingCart.checkout();
+        int i = 0;
+        while((total>0)&&i!=couponCodes.size()){
+            total-=Main.coupondatabase.searchCoupon(couponCodes.get(i)).getDiscount();
+            Main.coupondatabase.delete(couponCodes.get(i));
+            i++;
+        }
+        while(i--!=0){
+            couponCodes.remove(0);
+        }
+        return total;
+    }
+    void deleteShoppingCart(){
+        shoppingCart.delete();
     }
 }
 class admin extends User{

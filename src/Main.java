@@ -102,7 +102,7 @@ public class Main {
         y = Sc.nextLine();
         System.out.println("enter the product Id:");
         x = Sc.nextInt();
-        storedItem si = new storedItem(y, 0, x, 1);
+        storedItem si = new storedItem(y, 0, x, 1, "");
         if(!Inventory.existing(si)){
             System.out.println("the product doesnt exist\n");
         }else {
@@ -138,14 +138,30 @@ public class Main {
         total -= user.ShowCoupons();
         System.out.println("after discount your total  is :"+Math.max(0, total));
         System.out.println("\n\t"+user.shoppingCartSize()+"checkout");
+        System.out.println("\n\t"+user.shoppingCartSize()+1+"go back");
         int x;
         Scanner Sc = new Scanner(System.in);
         x=Sc.nextInt();
+        if(x==user.shoppingCartSize()+1){
+            checkout(user);
+            return;
+        }
         if(x==user.shoppingCartSize())
             return;
         alterItemCustomer(user, x);
     }
 
+    static void checkout(customer user){
+        float total=user.checkout();
+        System.out.println("ur total comes out to"+total);
+        Scanner Sc = new Scanner(System.in);
+        System.out.println("enter credit card number");
+        Sc.nextLine();
+        System.out.println("enter security number");
+        Sc.nextLine();
+        System.out.println("congrats u have checked out");
+        user.deleteShoppingCart();
+    }
     static void alterItemCustomer(customer user, int x){
         user.showItem(x);
         System.out.println("would you like to\t\n1--increase qtity\t\n2--decrease qtity");
@@ -227,7 +243,7 @@ public class Main {
         Scanner Sc = new Scanner(System.in);
         int x, z, t;
         float p;
-        String y;
+        String y, u;
         System.out.println("enter the product name:");
         y = Sc.nextLine();
         System.out.println("enter the product Id:");
@@ -236,7 +252,9 @@ public class Main {
         p = Sc.nextFloat();
         System.out.println("enter the product Qtity:");
         t = Sc.nextInt();
-        storedItem si = new storedItem(y, p, x, t);
+        System.out.println("enter the keywords");
+        u = Sc.nextLine();
+        storedItem si = new storedItem(y, p, x, t, u);
         if(Inventory.existing(si)){
             System.out.println("this product already exists in the inventory, there are "+si.getQtity()+" left of it and its price is "+si.getPrice()+"\n");
         }else{
@@ -252,7 +270,7 @@ public class Main {
         y = Sc.nextLine();
         System.out.println("enter the product Id:");
         x = Sc.nextInt();
-        storedItem si = new storedItem(y, 0, x, 1);
+        storedItem si = new storedItem(y, 0, x, 1, "");
         if(!Inventory.existing(si)){
             System.out.println("the product doesnt exist you might wanna create it alltogether\n");
         }else{

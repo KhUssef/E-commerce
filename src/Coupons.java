@@ -49,4 +49,7 @@ public class Coupons{
         }
         return null;
     }
+    void delete(int i){
+        idk.remove(this.searchCoupon(i));
+    }
 }
