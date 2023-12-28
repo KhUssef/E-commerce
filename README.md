@@ -60,3 +60,4 @@ the credit card number/security number are not put into variables since it is us
 showItems :
 z is the variable containing all the keywords it is a StringBuilder to allow users to add keywords more than once
 it is also possible to not have any filters and you would see all the available products in the inventory
+idk
