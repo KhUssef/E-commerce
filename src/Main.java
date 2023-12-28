@@ -5,9 +5,9 @@ public class Main {
     static AdminDatabase Admins = new AdminDatabase();
     static feedback appFeedback = new feedback();
     static Storage Inventory = new Storage();
-    static Coupons coupondatabase = new Coupons();
+    static Coupons couponDatabase = new Coupons();
 
-    public static void mainwindow() {
+    public static void mainWindow() {
         int x;
         float p;
         String o;
@@ -34,6 +34,7 @@ public class Main {
             case 4 :
                 System.out.println("how many stars would you like to give us");
                 p = Sc.nextFloat();
+                Sc.nextLine();
                 System.out.println("how can we improve ur user experience : ");
                 o = Sc.nextLine();
                 System.out.println("we appreciate the feedback and will try to work towards satisfying our customerDatabases");
@@ -67,7 +68,6 @@ public class Main {
             }
         }
     }
-
     public static void customerWindow(customer user){
         while (true) {
             System.out.println("hello ," + user.getUserName() + " what would you like to do today : \n\t1--view shopping cart" +
@@ -95,54 +95,9 @@ public class Main {
                     return;
                 case 6:
                     viewHistory(user);
+                    break;
             }
 
-        }
-    }
-
-    static void viewHistory(customer user){
-        user.showOrder();
-    }
-
-    static void search(customer user){
-        Scanner Sc = new Scanner(System.in);
-        int x, u;
-        String y;
-        System.out.println("enter the product name:");
-        y = Sc.nextLine();
-        System.out.println("enter the product Id:");
-        x = Sc.nextInt();
-                Sc.nextLine();
-        storedItem si = new storedItem(y, 0, x, 1, "");
-        if(!Inventory.existing(si)){
-            System.out.println("the product doesnt exist\n");
-        }else {
-            x = Inventory.position(si);
-            Inventory.showItem(x);
-            System.out.println("what would you like to do exactly\n\t1--add review\n\t2--add to basket");
-            u = Sc.nextInt();
-                Sc.nextLine();
-            if(u==1){
-                addreview(x);
-                return;
-            }
-            System.out.println("how many would you like to add : ");
-            u = Sc.nextInt();
-                Sc.nextLine();
-            si.setQtity(u);
-            user.addShopingCart(si, u);
-            System.out.println("items added successfully");
-        }
-    }
-    static void addCouponCode(customer user){
-        Scanner Sc = new Scanner(System.in);
-        System.out.println("enter coupon code");
-        int x = Sc.nextInt();
-                Sc.nextLine();
-        Coupon c = coupondatabase.searchCoupon(x);
-        if(c!=null){
-            user.addCoupon(x);
-            System.out.println("Coupon code added successfully.\ncoupon code: "+x+"\ndiscount: "+c.getDiscount());
         }
     }
     static void viewShoppingCart(customer user){
@@ -164,7 +119,6 @@ public class Main {
             return;
         alterItemCustomer(user, x);
     }
-
     static void checkout(customer user){
         float total=user.checkout();
         System.out.println("ur total comes out to"+total);
@@ -178,19 +132,128 @@ public class Main {
     }
     static void alterItemCustomer(customer user, int x){
         user.showItem(x);
-        System.out.println("would you like to\t\n1--increase qtity\t\n2--decrease qtity");
+        System.out.println("would you like to\n\t1--increase qtity\n\t2--decrease qtity");
         int z, y;
         Scanner Sc = new Scanner(System.in);
         y =Sc.nextInt();
         Sc.nextLine();
         System.out.println("by how much");
         z = Sc.nextInt();
-                Sc.nextLine();
+        Sc.nextLine();
         user.alterItem(x, y, z);
         user.showItem(x);
     }
+    static void showItems(customer user){
+        Scanner Sc = new Scanner(System.in);
+        boolean idk = true;
+        int x, y=1;
+        float a=0, b=2147483647;
+        StringBuilder z = new StringBuilder();
+        while(idk) {
+            System.out.println("would you like to add filters?\n\t1--add maximum price\n\t2--add minimum price\n\t3--add keywords\n\t4--order the result" +
+                    "\n\t5--show result");
+            x = Sc.nextInt();
+            Sc.nextLine();
+            switch(x){
+                case 1 :
+                    System.out.println("input price : ");
+                    a = Sc.nextInt();
+                    Sc.nextLine();
+                    break;
+                case 2 :
+                    System.out.println("input price : ");
+                    b = Sc.nextInt();
+                    Sc.nextLine();
+                    break;
+                case 3 :
+                    System.out.println("enter keywords (if u want to enter a keyword consisting of multiple words use _) :");
+                    z.append(Sc.nextLine());
+                    break;
+                case 4 :
+                    System.out.println("would you like the price to be \n\t1--ascending\n\t2--descending");
+                    y = Sc.nextInt();
+                    Sc.nextLine();
+                    break;
+                case 5 :
+                    idk=false;
+            }
+        }
+        while(true) {
+            ArrayList<storedItem> k = Inventory.filtered(a, b, y, z.toString());
+            Inventory.showall(k);
+            System.out.println(k.size() + "--go back to main window\n");
+            x = Sc.nextInt();
+            Sc.nextLine();
+            if (x == k.size()) {
+                return;
+            }
+            x = Inventory.position(k.get(x));
+            Inventory.showItemDetails(x);
+            System.out.println("1--add to shopping cart\n\t2--add review of product\n\t3--return to last window");
+            y=Sc.nextInt();
+            Sc.nextLine();
+            switch (y){
+                case 1 :
+                    System.out.println("how many would you like to add?");
+                    y = Sc.nextInt();
+                    Sc.nextLine();
+                    y = Math.min(y, Inventory.getQtity(x));
+                    System.out.println("successfully added "+y+" "+Inventory.getName(x)+"s to the shopping cart");
+                    user.addShopingCart(Inventory.getItem(x), y);
+                    break;
+                case 2 :
+                    addReview(y);
+                    break;
+                case 3 :
+                    continue;
+            }
 
-
+        }
+    }
+    static void addCouponCode(customer user){
+        Scanner Sc = new Scanner(System.in);
+        System.out.println("enter coupon code");
+        int x = Sc.nextInt();
+        Sc.nextLine();
+        Coupon c = couponDatabase.searchCoupon(x);
+        if(c!=null){
+            user.addCoupon(x);
+            System.out.println("Coupon code added successfully.\ncoupon code: "+x+"\ndiscount: "+c.getDiscount());
+        }
+    }
+    static void search(customer user){
+        Scanner Sc = new Scanner(System.in);
+        int x, u;
+        String y;
+        System.out.println("enter the product name:");
+        y = Sc.nextLine();
+        System.out.println("enter the product Id:");
+        x = Sc.nextInt();
+        Sc.nextLine();
+        storedItem si = new storedItem(y, 0, x, 1, "");
+        if(!Inventory.existing(si)){
+            System.out.println("the product doesnt exist");
+        }else {
+            x = Inventory.position(si);
+            Inventory.showItem(x);
+            System.out.println("what would you like to do exactly\n\t1--add review\n\t2--add to basket");
+            u = Sc.nextInt();
+            Sc.nextLine();
+            if(u==1){
+                addReview(x);
+                return;
+            }
+            System.out.println("how many would you like to add : ");
+            u = Sc.nextInt();
+            Sc.nextLine();
+            si.setQtity(u);
+            user.addShopingCart(si, u);
+            System.out.println("items added successfully");
+        }
+    }
+    static void viewHistory(customer user){
+        user.showOrder();
+    }
     public static void adminLogin(){
         String y , z;
         int u;
@@ -251,10 +314,11 @@ public class Main {
         float k;
         System.out.println("enter coupon code");
         c = Sc.nextInt();
-                Sc.nextLine();
+        Sc.nextLine();
         System.out.println("enter discount amount ");
         k = Sc.nextFloat();
-        coupondatabase.addCoupon(c, k);
+        Sc.nextLine();
+        couponDatabase.addCoupon(c, k);
     }
 
     static void addingItem(){
@@ -266,12 +330,13 @@ public class Main {
         y = Sc.nextLine();
         System.out.println("enter the product Id:");
         x = Sc.nextInt();
-                Sc.nextLine();
+        Sc.nextLine();
         System.out.println("enter the product price:");
         p = Sc.nextFloat();
+        Sc.nextLine();
         System.out.println("enter the product Qtity:");
         t = Sc.nextInt();
-                Sc.nextLine();
+        Sc.nextLine();
         System.out.println("enter the keywords");
         u = Sc.nextLine();
         storedItem si = new storedItem(y, p, x, t, u);
@@ -334,15 +399,16 @@ public class Main {
                 case 3 :
                     System.out.println("enter the new Price ");
                     op = Sc.nextFloat();
+                    Sc.nextLine();
                     Inventory.changePrice(x, op);
                     System.out.println("product price changed successfully");
                 case 4 :
                     System.out.println("would u like to:\n\t1--increase qtity\n\t2--decrease qtity");
                     u = Sc.nextInt();
-                Sc.nextLine();
+                    Sc.nextLine();
                     System.out.println("and by how much :");
                     op = Sc.nextInt();
-                Sc.nextLine();
+                    Sc.nextLine();
                     Inventory.alterQtity(x, (int) op, u);
             }
         }
@@ -387,81 +453,13 @@ public class Main {
         Inventory.showall(k);
 
     }
-    static void showItems(customer user){
-        Scanner Sc = new Scanner(System.in);
-        boolean idk = true;
-        int x, y=1;
-        float a=0, b=2147483647;
-        StringBuilder z = new StringBuilder();
-        while(idk) {
-            System.out.println("would you like to add filters?\n\t1--add maximum price\n\t2--add minimum price\n\t3--add keywords\n\t4--order the result" +
-                    "\n\t5--show result");
-            x = Sc.nextInt();
-                Sc.nextLine();
-            switch(x){
-                case 1 :
-                    System.out.println("input price : ");
-                    a = Sc.nextInt();
-                Sc.nextLine();
-                    break;
-                case 2 :
-                    System.out.println("input price : ");
-                    b = Sc.nextInt();
-                Sc.nextLine();
-                    break;
-                case 3 :
-                    System.out.println("enter keywords (if u want to enter a keyword consisting of multiple words use _) :");
-                    z.append(Sc.nextLine());
-                    break;
-                case 4 :
-                    System.out.println("would you like the price to be \n\t1--ascending\n\t2--descending");
-                    y = Sc.nextInt();
-                    Sc.nextLine();
-                    break;
-                case 5 :
-                    idk=false;
-            }
-        }
-        while(true) {
-            ArrayList<storedItem> k = Inventory.filtered(a, b, y, z.toString());
-            Inventory.showall(k);
-            System.out.println(k.size() + "--go back to main window\n");
-            x = Sc.nextInt();
-                Sc.nextLine();
-            if (x == k.size()) {
-                return;
-            }
-            x = Inventory.position(k.get(x));
-            Inventory.showItemDetails(x);
-            System.out.println("1--add to shopping cart\n\t2--add review of product\n\t3--return to last window");
-            y=Sc.nextInt();
-                Sc.nextLine();
-            switch (y){
-                case 1 :
-                    System.out.println("how many would you like to add?");
-                    y = Sc.nextInt();
-                Sc.nextLine();
-                    y = Math.min(y, Inventory.getQtity(x));
-                    System.out.println("successfully added "+y+" "+Inventory.getName(x)+"s to the shopping cart");
-                    user.addShopingCart(Inventory.getItem(x), y);
-                    break;
-                case 2 :
-                    addreview(y);
-                    break;
-                case 3 :
-                    continue;
-            }
-
-        }
-    }
-
-
-    static void  addreview(int x){
+    static void addReview(int x){
         Scanner Sc = new Scanner(System.in);
         String s;
         float idk;
         System.out.println("how many stars would you like to give : ");
         idk = Sc.nextFloat();
+        Sc.nextLine();
         System.out.println("any additional comment to add :");
         s= Sc.nextLine();
         idk = Math.min(idk, 5);
@@ -544,7 +542,7 @@ public class Main {
 
     public static void main(String[] args) {
         while(true)
-            mainwindow();
+            mainWindow();
 
     }
 }

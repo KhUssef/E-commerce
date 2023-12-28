@@ -5,7 +5,7 @@ class review{
     private float rating;
     private String comment;
     review(float rating, String comment){
-        this.rating=rating;
+        this.rating=Math.min(5, rating);
         this.comment=comment;
     }
     public float getRating() {

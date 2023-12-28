@@ -31,7 +31,7 @@ abstract class Product {
     public Set<String> getKeywords(){
         return keywords;
     }
-    public void addDescription(String n, float h) {
+    public void addReview(String n, float h) {
         review k = new review(h, n);
         feedbacks.add(k);
     }

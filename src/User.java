@@ -67,7 +67,7 @@ class customer extends User{
         float total=0;
         Coupon idk ;
         for(int i : couponCodes){
-            idk = Main.coupondatabase.searchCoupon(i);
+            idk = Main.couponDatabase.searchCoupon(i);
             if(idk==null){
                 couponCodes.remove(i);
             }else{
@@ -87,9 +87,9 @@ class customer extends User{
         float total= shoppingCart.checkout();
         int i = 0;
         while((total>0)&&i!=couponCodes.size()){
-            total-=Main.coupondatabase.searchCoupon(couponCodes.get(i)).getDiscount();
-            order.addCoupon(couponCodes.get(i), Main.coupondatabase.searchCoupon(couponCodes.get(i)).getDiscount());
-            Main.coupondatabase.delete(couponCodes.get(i));
+            total-=Main.couponDatabase.searchCoupon(couponCodes.get(i)).getDiscount();
+            order.addCoupon(couponCodes.get(i), Main.couponDatabase.searchCoupon(couponCodes.get(i)).getDiscount());
+            Main.couponDatabase.delete(couponCodes.get(i));
             i++;
         }
         while(i--!=0){

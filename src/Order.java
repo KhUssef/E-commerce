@@ -25,12 +25,9 @@ public class Order {
         orders.add(order);
     }
 
-    // Remove an order from the orders list
     public void removeOrder(Storage order) {
         orders.remove(order);
     }
-
-    // Apply a coupon to the order
     public void addCoupon(Coupon coupon) {
         couponsList.addCoupon(coupon);
     }

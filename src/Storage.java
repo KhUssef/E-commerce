@@ -125,13 +125,14 @@ public class Storage {
                     lol.add(i);
                 }
             }
-        }
-        for (storedItem i : idk) {
-            if ((i.getPrice() >= mi) && (i.getPrice() <= ma)) {
-                temp = kws;
-                temp.retainAll(i.getKeywords());
-                if(!temp.isEmpty())
-                    lol.add(i);
+        }else {
+            for (storedItem i : idk) {
+                if ((i.getPrice() >= mi) && (i.getPrice() <= ma)) {
+                    temp = kws;
+                    temp.retainAll(i.getKeywords());
+                    if (!temp.isEmpty())
+                        lol.add(i);
+                }
             }
         }
         lol.sort((a, b) -> (asc == 1) ? (int) (a.getPrice() - b.getPrice()) : (int) (b.getPrice() - a.getPrice()));
@@ -147,8 +148,7 @@ public class Storage {
         return idk.get(x);
     }
     void addReview(int x, float i, String n){
-        storedItem item = idk.get(x);
-        item.addDescription(n, i);
+        idk.get(x).addReview(n, i);
     }
     void showItemShopping(int x){
         storedItem item = idk.get(x);
