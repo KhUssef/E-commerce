@@ -38,13 +38,11 @@ class User {
     }
 }
 class customer extends User{
-    private feedback feedbacks;
     private Storage shoppingCart;
     private ArrayList<Integer> couponCodes;
     private Order order;
     customer(String mail, String password, String UserName) {
         super(mail, password, UserName);
-        feedbacks = new feedback();
         shoppingCart = new Storage();
         couponCodes = new ArrayList<>();
         order = new Order();
@@ -54,7 +52,7 @@ class customer extends User{
         shoppingCart.add_item(nItem);
     }
     void showOrder(){
-
+        order.show();
     }
     float showShopping(){
         return shoppingCart.showallShopping();
@@ -102,9 +100,6 @@ class customer extends User{
     }
     void deleteShoppingCart(){
         shoppingCart.delete();
-    }
-    void showOrders(){
-        order.show();
     }
 }
 class admin extends User{
