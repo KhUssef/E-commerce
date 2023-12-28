@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class review{
     private float rating;
@@ -37,5 +38,12 @@ public class feedback {
         idk.add(a);
         temp +=a.getRating();
         overall = temp/idk.size();
+    }
+    void show(){
+        for(review r : idk){
+            System.out.println(r.getRating()+"stars");
+            System.out.println(r.getComment());
+        }
+        System.out.println("overall this product has "+overall+" stars");
     }
 }

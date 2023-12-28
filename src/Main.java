@@ -14,6 +14,7 @@ public class Main {
         System.out.println("would you like to : \nlogin as : \n\t 1--customer \n\t 2--admin \n 3--create new account \n 4-- rate us");
         Scanner Sc = new Scanner(System.in);
         x = Sc.nextInt();
+        Sc.nextLine();
         switch (x) {
             case 1:
                 customerLogin();
@@ -24,6 +25,7 @@ public class Main {
             case 3 :
                 System.out.println("are you a : \n\t 1--admin \n\t 2--customer :");
                 x = Sc.nextInt();
+                Sc.nextLine();
                 switch(x){
                     case 1 : createAdmin();break;
                     case 2 : createCustomer();break;
@@ -33,7 +35,6 @@ public class Main {
                 System.out.println("how many stars would you like to give us");
                 p = Sc.nextFloat();
                 System.out.println("how can we improve ur user experience : ");
-                ;
                 o = Sc.nextLine();
                 System.out.println("we appreciate the feedback and will try to work towards satisfying our customerDatabases");
                 review a = new review(p, o);
@@ -52,7 +53,6 @@ public class Main {
             System.out.println("enter password : ");
             z = Sc.nextLine();
             user =customers.login(y, z);
-            System.out.println(y+z);
             if (user !=null){
                 customerWindow(user);
                 return;
@@ -60,10 +60,10 @@ public class Main {
             else{
                 System.out.println("wrong account info : \n\t 1--return to main window \n\t 2--try again");
                 u = Sc.nextInt();
+                Sc.nextLine();
                 if (u == 1) {
                     return;
                 }
-                Sc.next();
             }
         }
     }
@@ -76,6 +76,7 @@ public class Main {
             int x;
             Scanner Sc = new Scanner(System.in);
             x = Sc.nextInt();
+            Sc.nextLine();
             switch (x) {
                 case 1:
                     viewShoppingCart(user);
@@ -102,6 +103,7 @@ public class Main {
         y = Sc.nextLine();
         System.out.println("enter the product Id:");
         x = Sc.nextInt();
+                Sc.nextLine();
         storedItem si = new storedItem(y, 0, x, 1, "");
         if(!Inventory.existing(si)){
             System.out.println("the product doesnt exist\n");
@@ -109,14 +111,15 @@ public class Main {
             x = Inventory.position(si);
             Inventory.showItem(x);
             System.out.println("what would you like to do exactly\n\t1--add review\n\t2--add to basket");
-            ;
             u = Sc.nextInt();
+                Sc.nextLine();
             if(u==1){
                 addreview(x);
                 return;
             }
             System.out.println("how many would you like to add : ");
             u = Sc.nextInt();
+                Sc.nextLine();
             si.setQtity(u);
             user.addShopingCart(si, u);
             System.out.println("items added successfully");
@@ -126,6 +129,7 @@ public class Main {
         Scanner Sc = new Scanner(System.in);
         System.out.println("enter coupon code");
         int x = Sc.nextInt();
+                Sc.nextLine();
         Coupon c = coupondatabase.searchCoupon(x);
         if(c!=null){
             user.addCoupon(x);
@@ -142,6 +146,7 @@ public class Main {
         int x;
         Scanner Sc = new Scanner(System.in);
         x=Sc.nextInt();
+        Sc.nextLine();
         if(x==user.shoppingCartSize()+1){
             checkout(user);
             return;
@@ -167,16 +172,18 @@ public class Main {
         System.out.println("would you like to\t\n1--increase qtity\t\n2--decrease qtity");
         int z, y;
         Scanner Sc = new Scanner(System.in);
-        y =(Sc.nextInt());
+        y =Sc.nextInt();
+        Sc.nextLine();
         System.out.println("by how much");
         z = Sc.nextInt();
+                Sc.nextLine();
         user.alterItem(x, y, z);
         user.showItem(x);
     }
 
 
     public static void adminLogin(){
-        String y = null, z=null;
+        String y , z;
         int u;
         admin user;
         Scanner Sc = new Scanner(System.in);
@@ -194,10 +201,10 @@ public class Main {
             else{
                 System.out.println("wrong account info : \n\t 1--return to main window \n\t 2--try again");
                 u = Sc.nextInt();
+                Sc.nextLine();
                 if (u == 1) {
                     return;
                 }
-                Sc.next();
             }
         }
     }
@@ -205,10 +212,11 @@ public class Main {
         while (true) {
             System.out.println("hello ," + user.getUserName() + " what would you like to do today : \n\t1--add a new Product" +
                     "\n\t2--increase the qtity of an already existing product\n\t3--view existing products" +
-                    "\n\t4--add coupon\n\t4--logout");
+                    "\n\t4--add coupon\n\t5--logout");
             int x;
             Scanner Sc = new Scanner(System.in);
             x = Sc.nextInt();
+                Sc.nextLine();
             switch (x) {
                 case 1:
                     addingItem();
@@ -234,6 +242,7 @@ public class Main {
         float k;
         System.out.println("enter coupon code");
         c = Sc.nextInt();
+                Sc.nextLine();
         System.out.println("enter discount amount ");
         k = Sc.nextFloat();
         coupondatabase.addCoupon(c, k);
@@ -241,17 +250,19 @@ public class Main {
 
     static void addingItem(){
         Scanner Sc = new Scanner(System.in);
-        int x, z, t;
+        int x, t;
         float p;
         String y, u;
         System.out.println("enter the product name:");
         y = Sc.nextLine();
         System.out.println("enter the product Id:");
         x = Sc.nextInt();
+                Sc.nextLine();
         System.out.println("enter the product price:");
         p = Sc.nextFloat();
         System.out.println("enter the product Qtity:");
         t = Sc.nextInt();
+                Sc.nextLine();
         System.out.println("enter the keywords");
         u = Sc.nextLine();
         storedItem si = new storedItem(y, p, x, t, u);
@@ -270,6 +281,7 @@ public class Main {
         y = Sc.nextLine();
         System.out.println("enter the product Id:");
         x = Sc.nextInt();
+                Sc.nextLine();
         storedItem si = new storedItem(y, 0, x, 1, "");
         if(!Inventory.existing(si)){
             System.out.println("the product doesnt exist you might wanna create it alltogether\n");
@@ -279,7 +291,7 @@ public class Main {
             System.out.println("what would you like to do exactly\n\t1--change its name\n\t2--change its Id\n\t3--change the price" +
                     "\n\t4--increase/decrease product qtity");
             u = Sc.nextInt();
-            ;
+                Sc.nextLine();
             switch(u) {
                 case 1:
                     while (true) {
@@ -299,6 +311,7 @@ public class Main {
                     while (true) {
                         System.out.println("enter the new Id");
                         u = Sc.nextInt();
+                Sc.nextLine();
                         si.setId(u);
                         if (Inventory.existing(si)) {
                             System.out.println("a product with the same characteristics already exists please enter a valid Id");
@@ -317,8 +330,10 @@ public class Main {
                 case 4 :
                     System.out.println("would u like to:\n\t1--increase qtity\n\t2--decrease qtity");
                     u = Sc.nextInt();
+                Sc.nextLine();
                     System.out.println("and by how much :");
                     op = Sc.nextInt();
+                Sc.nextLine();
                     Inventory.alterQtity(x, (int) op, u);
             }
         }
@@ -333,22 +348,27 @@ public class Main {
             System.out.println("would you like to add filters?\n\t1--add maximum price\n\t2--add minimum price\n\t3--add keywords\n\t4--order the result" +
                     "\n\t5--show result");
             x = Sc.nextInt();
+                Sc.nextLine();
             switch(x){
                 case 1 :
                     System.out.println("input price : ");
                     a = Sc.nextInt();
+                Sc.nextLine();
                     break;
                 case 2 :
                     System.out.println("input price : ");
                     b = Sc.nextInt();
+                Sc.nextLine();
                     break;
                 case 3 :
                     System.out.println("enter keywords (if u want to enter a keyword consisting of multiple words use _) :");
+                    z.append(" ");
                     z.append(Sc.nextLine());
                     break;
                 case 4 :
                     System.out.println("would you like the price to be \n\t1--ascending\n\t2--descending");
                     y = Sc.nextInt();
+                Sc.nextLine();
                     break;
                 case 5 :
                     idk=false;
@@ -368,14 +388,17 @@ public class Main {
             System.out.println("would you like to add filters?\n\t1--add maximum price\n\t2--add minimum price\n\t3--add keywords\n\t4--order the result" +
                     "\n\t5--show result");
             x = Sc.nextInt();
+                Sc.nextLine();
             switch(x){
                 case 1 :
                     System.out.println("input price : ");
                     a = Sc.nextInt();
+                Sc.nextLine();
                     break;
                 case 2 :
                     System.out.println("input price : ");
                     b = Sc.nextInt();
+                Sc.nextLine();
                     break;
                 case 3 :
                     System.out.println("enter keywords (if u want to enter a keyword consisting of multiple words use _) :");
@@ -384,6 +407,7 @@ public class Main {
                 case 4 :
                     System.out.println("would you like the price to be \n\t1--ascending\n\t2--descending");
                     y = Sc.nextInt();
+                Sc.nextLine();
                     break;
                 case 5 :
                     idk=false;
@@ -394,6 +418,7 @@ public class Main {
             Inventory.showall(k);
             System.out.println(k.size() + "--go back to main window\n");
             x = Sc.nextInt();
+                Sc.nextLine();
             if (x == k.size()) {
                 return;
             }
@@ -401,10 +426,12 @@ public class Main {
             Inventory.showItemDetails(x);
             System.out.println("1--add to shopping cart\n\t2--add review of product\n\t3--return to last window");
             y=Sc.nextInt();
+                Sc.nextLine();
             switch (y){
                 case 1 :
                     System.out.println("how many would you like to add?");
                     y = Sc.nextInt();
+                Sc.nextLine();
                     y = Math.min(y, Inventory.getQtity(x));
                     System.out.println("successfully added "+y+" "+Inventory.getName(y)+"s to the shopping cart");
                     user.addShopingCart(Inventory.getItem(x), y);
@@ -447,7 +474,7 @@ public class Main {
                 case 'm' :
                     System.out.println("mail already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
-                    ;
+                Sc.nextLine();
                     switch (x){
                         case 1 : continue;
                         case 2 : return;
@@ -455,6 +482,7 @@ public class Main {
                 case 'u' :
                     System.out.println("username already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
+                Sc.nextLine();
                     ;
                     switch (x){
                         case 1 : continue;
@@ -484,7 +512,7 @@ public class Main {
                 case 'm' :
                     System.out.println("mail already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
-                    ;
+                Sc.nextLine();
                     switch (x){
                         case 1 : continue;
                         case 2 : return;
@@ -492,7 +520,7 @@ public class Main {
                 case 'u' :
                     System.out.println("username already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
-                    ;
+                Sc.nextLine();
                     switch (x){
                         case 1 : continue;
                         case 2 : return;

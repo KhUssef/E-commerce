@@ -8,7 +8,6 @@ abstract class Product {
     protected float price;
     protected int Id;
     protected feedback feedbacks;
-    protected feedback description;
     protected Set<String> keywords;
 
     Product(String name, float price, int Id){
@@ -16,7 +15,6 @@ abstract class Product {
         this.name=name;
         this.price  =price;
         feedbacks = new feedback();
-        description = new feedback();
         keywords = new HashSet<>() {
         };
     }
@@ -35,7 +33,7 @@ abstract class Product {
     }
     public void addDescription(String n, float h) {
         review k = new review(h, n);
-        description.add(k);
+        feedbacks.add(k);
     }
 
     public float getPrice() {
@@ -72,6 +70,9 @@ class storedItem extends Product{
     }
     public void increaseQty(int x){
         this.Qty += x;
+    }
+    public void showReview(){
+        feedbacks.show();
     }
 }
 

@@ -37,6 +37,7 @@ public class Storage {
         for(String j : item.getKeywords()){
             System.out.print(j+' ');
         }
+        idk.get(i).showReview();
     }
     public void alterQtity(int x, int y, int z){
         if(z==1)
@@ -112,7 +113,7 @@ public class Storage {
         Set<String> temp;
         Collections.addAll(kws, kw.split(" "));
         ArrayList<storedItem> lol = new ArrayList<>();
-        if(kws.isEmpty())
+        if(kw.isEmpty())
             return idk;
         for (storedItem i : idk) {
             if ((i.getPrice() >= mi) && (i.getPrice() <= ma)) {
