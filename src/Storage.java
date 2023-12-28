@@ -67,13 +67,19 @@ public class Storage {
         storedItem nItem;
         for(storedItem item : idk){
             nItem = Main.Inventory.getItem(Main.Inventory.position(item));
-            total+=item.getPrice()*Math.min(nItem.getQtity(),item.getQtity());
-            Main.Inventory.alterQtityUser(Main.Inventory.position(item), 2, Math.min(nItem.getQtity(),item.getQtity()));
+            item.setQtity(Math.min(nItem.getQtity(),item.getQtity()));
+            total+=item.getPrice()*item.getQtity();
+            Main.Inventory.alterQtityUser(Main.Inventory.position(item), 2,item.getQtity());
         }
         return total;
     }
     void delete(){
         idk.clear();
+    }
+    void showMinimal(){
+        for(storedItem si : idk){
+            System.out.println(si.getQtity()+" "+si.getName()+"s for "+si.getQtity()*si.getPrice());
+        }
     }
     void changeName(int x, String j){
         idk.get(x).setName(j);
@@ -113,8 +119,13 @@ public class Storage {
         Set<String> temp;
         Collections.addAll(kws, kw.split(" "));
         ArrayList<storedItem> lol = new ArrayList<>();
-        if(kw.isEmpty())
-            return idk;
+        if(kw.isEmpty()){
+            for (storedItem i : idk) {
+                if ((i.getPrice() >= mi) && (i.getPrice() <= ma)) {
+                    lol.add(i);
+                }
+            }
+        }
         for (storedItem i : idk) {
             if ((i.getPrice() >= mi) && (i.getPrice() <= ma)) {
                 temp = kws;

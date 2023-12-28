@@ -72,7 +72,8 @@ public class Main {
         while (true) {
             System.out.println("hello ," + user.getUserName() + " what would you like to do today : \n\t1--view shopping cart" +
                     "\n\t2--view available products\n\t3--add coupons"+
-                    "\n\t4--search for specific product\n\t5--logout");
+                    "\n\t4--search for specific product\n\t5--view History" +
+                    "\n\t6--logout");
             int x;
             Scanner Sc = new Scanner(System.in);
             x = Sc.nextInt();
@@ -86,13 +87,21 @@ public class Main {
                     break;
                 case 3:
                     addCouponCode(user);
+                    break;
                 case 4:
                     search(user);
+                    break;
                 case 5 :
                     return;
+                case 6:
+                    viewHistory(user);
             }
 
         }
+    }
+
+    static void viewHistory(customer user){
+        user.showOrder();
     }
 
     static void search(customer user){
@@ -141,17 +150,17 @@ public class Main {
         System.out.println("the total comes up to :"+total);
         total -= user.ShowCoupons();
         System.out.println("after discount your total  is :"+Math.max(0, total));
-        System.out.println("\n\t"+user.shoppingCartSize()+"checkout");
-        System.out.println("\n\t"+user.shoppingCartSize()+1+"go back");
+        System.out.println("\n\t"+user.shoppingCartSize()+"--checkout");
+        System.out.println("\n\t"+(user.shoppingCartSize()+1)+"--go back");
         int x;
         Scanner Sc = new Scanner(System.in);
         x=Sc.nextInt();
         Sc.nextLine();
-        if(x==user.shoppingCartSize()+1){
+        if(x==user.shoppingCartSize()){
             checkout(user);
             return;
         }
-        if(x==user.shoppingCartSize())
+        if(x==user.shoppingCartSize()+1)
             return;
         alterItemCustomer(user, x);
     }
@@ -407,7 +416,7 @@ public class Main {
                 case 4 :
                     System.out.println("would you like the price to be \n\t1--ascending\n\t2--descending");
                     y = Sc.nextInt();
-                Sc.nextLine();
+                    Sc.nextLine();
                     break;
                 case 5 :
                     idk=false;
@@ -433,7 +442,7 @@ public class Main {
                     y = Sc.nextInt();
                 Sc.nextLine();
                     y = Math.min(y, Inventory.getQtity(x));
-                    System.out.println("successfully added "+y+" "+Inventory.getName(y)+"s to the shopping cart");
+                    System.out.println("successfully added "+y+" "+Inventory.getName(x)+"s to the shopping cart");
                     user.addShopingCart(Inventory.getItem(x), y);
                     break;
                 case 2 :
