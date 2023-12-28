@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import java.util.ArrayList;
-
 public class Order {
     private ArrayList<Storage> orders;
     private Coupons couponsList;

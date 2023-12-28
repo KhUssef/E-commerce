@@ -91,9 +91,9 @@ public class Main {
                 case 4:
                     search(user);
                     break;
-                case 5 :
+                case 6 :
                     return;
-                case 6:
+                case 5 :
                     viewHistory(user);
                     break;
             }
@@ -157,12 +157,12 @@ public class Main {
             switch(x){
                 case 1 :
                     System.out.println("input price : ");
-                    a = Sc.nextInt();
+                    b = Sc.nextInt();
                     Sc.nextLine();
                     break;
                 case 2 :
                     System.out.println("input price : ");
-                    b = Sc.nextInt();
+                    a = Sc.nextInt();
                     Sc.nextLine();
                     break;
                 case 3 :
@@ -189,7 +189,7 @@ public class Main {
             }
             x = Inventory.position(k.get(x));
             Inventory.showItemDetails(x);
-            System.out.println("1--add to shopping cart\n\t2--add review of product\n\t3--return to last window");
+            System.out.println("\t1--add to shopping cart\n\t2--add review of product\n\t3--return to last window");
             y=Sc.nextInt();
             Sc.nextLine();
             switch (y){
@@ -202,7 +202,7 @@ public class Main {
                     user.addShopingCart(Inventory.getItem(x), y);
                     break;
                 case 2 :
-                    addReview(y);
+                    addReview(x);
                     break;
                 case 3 :
                     continue;
@@ -402,6 +402,7 @@ public class Main {
                     Sc.nextLine();
                     Inventory.changePrice(x, op);
                     System.out.println("product price changed successfully");
+                    break;
                 case 4 :
                     System.out.println("would u like to:\n\t1--increase qtity\n\t2--decrease qtity");
                     u = Sc.nextInt();
@@ -410,6 +411,7 @@ public class Main {
                     op = Sc.nextInt();
                     Sc.nextLine();
                     Inventory.alterQtity(x, (int) op, u);
+                    break;
             }
         }
     }
@@ -490,7 +492,6 @@ public class Main {
                     System.out.println("username already in use : would you like to \n\t 1--retry \n\t 2--return to main window");
                     x = Sc.nextInt();
                 Sc.nextLine();
-                    ;
                     switch (x){
                         case 1 : continue;
                         case 2 : return;

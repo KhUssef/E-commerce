@@ -2,14 +2,14 @@
 # a few keywords and comments regarding them :
 User :
 there are both a RightPassword and RightPassword_ methods for this class because I wanted to keep the password as private as possible which also explains the absence of the getter for this attribute
-also the username is just another attribute i added since u always find it in most apps and such I did consider adding an id for admins but that could make the creaion of accounts and login process way too slow
+also the username is just another attribute I added since u always find it in most apps and such I did consider adding an id for admins but that could make the creation of accounts and login process way too slow
 
 customer :
 the couponCodes attribute for this class should have been of type Coupons, but instead it's of type ArrayList just in case an admin updates the discount for a coupon code
 there are no getters nor setters for any item from the shoppingCart to highlight the encapsulation of objects that should be private
 
 customerDatabase/AdminDatabase :  
-the addUser method doesn't check for the existence of accounts in the database that is because that is accounted for in the adminLogin/customerLogin methods i thought it to be neater this way
+the addUser method doesn't check for the existence of accounts in the database that is because that is accounted for in the adminLogin/customerLogin methods I thought it to be neater this way
 
 Product : 
 the keywords attribute is my way of implementing a dynamic search function. while realistically it would be better to have categories instead, for this project specifically it would make adding products a lot easier,
@@ -17,16 +17,16 @@ plus it gives more freedom.
 it is also possible to have two items with the same id or name as long as the other attribute is different 
 
 storedItem :
-i should preface this by saying that this is used for both inventory and shopping cart so shoppingItem is completely useless
-the more appropriate name might be storedProduct but i thought item makes more sense since it would also be the same attribute used in a shopping cart
+I should preface this by saying that this is used for both inventory and shopping cart so shoppingItem is completely useless
+the more appropriate name might be storedProduct, but I thought item makes more sense since it would also be the same attribute used in a shopping cart
 
 shoppingItem :
-the only reason it exists is that having an abstract class that only one class inherits from defies the whole reason behind the existance of an abstract class
+the only reason it exists is that having an abstract class that only one class inherits from defies the whole reason behind the existence of an abstract class
 if the project ever gets updated there might be a use case for it(mostly in tracking orders and stuff like that)
 
 Storage:
 the shoppingCart attribute(from customer) and Inventory from Main are this type since they have so much in common
-there are many methods called showItems/showall/showMinimal just to give a bit of customisation to the project. it is possible to remove a lot of them but then it would be dull
+there are many methods called showItems/show all/showMinimal just to give a bit of customisation to the project. it is possible to remove a lot of them, but then it would be dull
 in the filtered method (which is used to filter the results of a search ) there might be a better way of treating the case where there are no keywords searched but this one is the simplest to implement
 
 review:
@@ -46,7 +46,7 @@ the orders attribute should be of type Storage but having each order be separate
 whereas for coupons having all the history of coupons seams better
 
 # the Main class 
-it might have made more sense to have all the window methods in a seperate class called windows but that would leave the Main class empty
+it might have made more sense to have all the window methods in a separate class called windows but that would leave the Main class empty
 about 90% of the code here is made up of Input/Output and switch statements
 
 mainWindow :
@@ -59,5 +59,4 @@ the credit card number/security number are not put into variables since it is us
 
 showItems :
 z is the variable containing all the keywords it is a StringBuilder to allow users to add keywords more than once
-it is also possible to not have any filters and you would see all the available products in the inventory
-idk
+it is also possible to not have any filters, and you would see all the available products in the inventory
